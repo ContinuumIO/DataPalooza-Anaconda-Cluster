@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Anaconda Cluster</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+        <style>
+        .logo{
+            bottom: 0 !important;
+            left: 0 !important;
+            float: left !important;
+            margin-top: 300px !important;
+            margin-left: -100px !important;
+        }
+        </style>
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Anaconda Cluster</h1>
+					<h3>Deploy Scientific Clusters</h3>
+					<p><small>Continuum Analytics</small></p>
+                    <p>
+						<small>
+                           <a href="http://continuum.io">continuum.io</a>
+                        </small>
+					</p>
+
+                <img  src="anaconda_cluster_logo.png"></img>
+				</section>
+
+              <section data-markdown>
+
+### Anaconda cluster
+ * Provisions and shuts down clusters
+ * Installs tools like HDFS, Spark, Hive, and Impala
+ * Uses ```conda``` remotely for Python installs
+ * Transfers files and submits jobs
+ * Cooperates with other big data tools and services
+![Alt text](ARM_support_RPi.jpg)
+                </section>
+                <section data-markdown>
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+### Why We Made Anaconda Cluster
+ * Simplify scientific cluster operations and focus on data science
+ * Promote repeatable data science and experimentation
+ * Remove devops hurdles for big data tools
+<img style="margin-left:20%;margin-top:0px;width:60%;" src="ARM_support_RPi.jpg"></img>
+                </section>
+                <section data-markdown>
+### Anaconda Cluster Plugins
+
+  * Miniconda
+  * Elasticsearch
+  * Dask-Distributed
+  * YARN
+  * HDFS
+  * Hive
+  * Impala
+  * IPython Parallel
+  * Jupyter Notebook
+  * Kibana
+  * Logstash
+  * Salt
+  * Spark (standalone mode or YARN)
+  * Storm
+  * ZooKeeper
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Presentation Format
+ * Learn how to start a cluster with plugins like Spark and Hive
+ * Discuss Anaconda cluster workflow with a running cluster
+ * Using Anaconda cluster with Anaconda Cloud a package distribution system and `conda`, an environments and installation tool
+ * Using PySpark with Anaconda cluster
+ * Using Cloudera and Anaconda cluster together
+ * Other Anaconda cluster related news
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+
+### Getting Started Checklist
+ * Install `anaconda-cluster`
+ * Make a `providers.yaml` config file
+ * Get a private key file
+ * Make a cluster profile
+ * Start cluster
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+### Installation of Anaconda-cluster
+ * Works with the [anaconda.org](http://anaconda.org) distribution system
+```bash
+$ conda install anaconda-client
+$ anaconda login
+$ conda install -c anaconda-cluster anaconda-cluster
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+### Provider Configuration
+ * Create a `provider.yaml` file
+ * Here's an example for using AWS EC2:
+ * [http://docs.continuum.io/anaconda-cluster/config-provider](http://docs.continuum.io/anaconda-cluster/config-provider)
+ <pre><code>
+```
+aws_east:
+  cloud_provider: ec2
+  keyname: psteinberg2.pem
+  location: us-east-1
+  private_key: ~/.ssh/psteinberg2.pem
+  secret_id: AKIAXXXXXX
+  secret_key: XXXXXXXXXX
+  security_group: anaconda-cluster-default
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+### Provider Configuration
+ * And an example for on-premise hardware
+<pre><code>
+```
+bare_metal:
+   cloud_provider: none
+   private_key: ~/.ssh/psteinberg2.pem
+
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+### Get a Private Key File
+ * Download the `private_key` file from your cloud provider or colleague and change its permissions.
+
+<img style="width:60%;" src="create_key_pair.png"></img>
+
+```bash
+$ chmod 0600 ~/path/to/your_keyname
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Check Private Key Path
+ * Make sure the `providers.yaml` finds the `private_key` at the path where saved:
+
+<pre>
+```yaml
+  private_key: ~/.ssh/psteinberg2.pem
+```
+</pre>
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Make a cluster profile
+ * Set up a [cluster profile](http://docs.continuum.io/anaconda-cluster/config-profile), a YAML text config file
+ * An example for a Spark, Hive, Impala cluster with Ipython notebook:
+
+<pre><code>
+```yaml
+name: hive_impala_spark_config
+provider: aws_east
+node_id: ami-9a562df2
+user: ubuntu
+node_type: m3.2xlarge
+num_nodes: 2
+root_size: 1000
+plugins:
+  - spark-yarn
+  - impala
+  - hive
+  - notebook
+  - hdfs: {namenode_dirs:[/data/dfs/nn], datanode_dirs:[/data/dfs/dn]}
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                 </section>
+                <section data-markdown>
+### More About Cluster Profiles
+  * Place other cluster profile configs in the `~/.acluster/profiles` directory,
+  * See also [http://docs.continuum.io/anaconda-cluster/](http://docs.continuum.io/anaconda-cluster/)</small>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Ready to start a cluster
+ * `anaconda-cluster` is installed
+ * `providers.yaml` configures access to cloud or on-premise cluster
+ * The private key is on the local machine at named location
+ * At least one cluster profile is complete
+ * Now check the profile and provider configuration...
+
+![Alt Text](anaconda_cluster_logo.png)
+                 </section>
+                <section data-markdown>
+### Ready to start a cluster
+ * List the configured profiles
+ * Make sure your profile can be yaml-parsed
+
+```bash
+$ acluster list profiles
+```
+
+<pre><code>
+```
+name: anaconda_builder
+conda_channels:
+- conda-team
+- psteinberg
+- anaconda-cluster
+- defaults
+data:
+  anaconda_builder:
+    queue: conda-team/build_recipes
+    token: *********
+head:
+  roles:
+  - anaconda-builder
+node_id: ami-08faa660
+node_type: m1.medium
+num_nodes: 1
+provider: aws_east_anaconda_builder
+user: ubuntu
+```
+</code></pre>
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Ready to start a cluster
+ * List the configured providers
+ * Make sure the `providers.yaml` can be parsed
+
+```bash
+$ acluster list providers
+```
+<pre><code>
+```
+aws_east_anaconda_builder:
+   cloud_provider: ec2
+   keyname: conda-team-dev
+   location: us-east-1
+   private_key: ~/conda-team-dev.pem
+   secret_id: '************'
+   secret_key: '************'
+
+```
+</code></pre>
+
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+
+### Starting a Cluster
+ * Start a cluster by giving a profile argument
+ * This command:
+  * Provisions instances
+  * Starts instances and installs plugins
+  * Uses `salt` configuration manager to start services and establish user roles
+  * Creates a shareable cluster configuration file
+
+
+```bash
+$ acluster create mycluster --profile hive_impala_spark_config
+```
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+
+### Share a Cluster
+ * Give coworkers the cluster config file created at cluster startup
+ * Also share the private key file
+
+<pre>
+```bash
+$ acluster create mycluster --profile hive_impala_spark_config
+$ cat ~/.acluster/clusters.d/mycluster.yaml
+```
+</pre>
+<pre>
+```yaml
+mycluster:
+  created_at: '2015-07-23 08:54:05'
+  ids:
+  - i-393cbed0
+  - i-3a3cbed3
+  machines: {compute: [54.237.86.244], head: [54.237.113.188]}
+  private_key: ~/.ssh/psteinberg2.pem
+  profile: hive_impala_spark_config
+  provider: aws_east
+  user: ubuntu
+```
+</pre>
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+<img class="logo" src="Continuum_Logo_0702.png"></img>
+
+### With a Running Anaconda Cluster
+ * Typical workflow:
+  * Pushing data files and code
+  * Remote `conda` installing Python dependencies
+  * Installing more anaconda cluster plugins like Hive or Impala
+  * Remote ssh commands or ssh'ing into machines
+  * Transferring output files from nodes to local machine
+  * Shutting down cluster (stopping provisioning)
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+
+### Anaconda cluster Workflow
+
+ * Push a file to all the nodes of cluster
+ ```bash
+$ acluster put some_file.py /tmp/some_file.py --target --all
+```
+
+ * Push a local directory to the head node but not others
+ ```bash
+$ acluster put ./tmp_data/ /tmp/data --target 0
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+
+ * Get files from specific workers
+ * Give them unique names on the destination end
+ ```bash
+$ acluster get /tmp/a.txt a_0.txt --target 0
+$ acluster get /tmp/a.txt a_1.txt --target 1
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+
+ * `conda` install Python dependencies and list what is installed
+
+<pre>
+```bash
+    $ acluster conda install scipy scikit-learn pandas
+```
+</pre>
+![Alt Text](anaconda_cluster_logo.png)
+               </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+ * Install an anaconda cluster plugin if it is not already in cluster profile
+
+```
+$ acluster install hive impala
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+
+ * Submit any Python job or a job for running by Spark master
+ * Streams output as it is generated
+```
+$ acluster submit image_mapper.py
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+
+ * Run any remote command on some or all nodes:
+ * The `--target` argument controls which node(s) run the command
+ * Output from each node is piped back
+
+```bash
+$ acluster cmd "ls /tmp/data" --target --all
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+ * Use remote conda environments
+ * For example, install a Python 2.7 website's dependencies:
+ ```bash
+ $ acluster cmd 'conda create -n new_website python=2.7 django'
+ ```
+ * Or a Python 3.4 website's dependencies:
+ ```bash
+ $ acluster cmd 'conda create -n new_website python=3.4 django'
+ ```
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+ * Get a list of the clusters running
+```
+$ acluster list
+```
+```
+mycluster:
+  nodes:
+  - 54.237.113.188 (head)
+  - 54.237.86.244
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster Workflow
+ * At any point we can ssh into a node
+ * ssh to the head node by default
+ ```bash
+ $ acluster ssh
+ ```
+ * Or to a compute node, using 0-based node numbers
+ ```bash
+ $ acluster ssh 1 # the first compute node
+ ```
+ * The cluster profile YAML sets the username for `acluster ssh`
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster Workflow
+
+ * Anaconda cluster sets up the web services associated with Hadoop, YARN, Spark, and other tools
+
+```bash
+$ acluster open yarn # finds the right IP:port for browser
+$ acluster open notebook
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster Workflow
+ * Shutdown the cluster (takes care of provisioning)
+```bash
+$ acluster destroy mycluster
+```
+ * Confirm yes/no to prevent accidental cluster shutdown:
+```bash
+Are you sure you want to destroy cluster "mycluster"? [y/N]: y
+INFO: Cluster "mycluster" destroyed
+Cluster destroyed
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda Cluster Works With:
+ * Anaconda Cloud, `conda`, and Python distribution systems
+ * Spark
+ * Cloudera
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+
+ * Anaconda cloud at [anaconda.org](http://anaconda.org) is a distribution system
+  * Upload a local Python environment
+  * Upload a Python or R package
+  * Upload a Jupyter notebook
+  * Share notebooks, environments and packages with other users and clusters
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster with Anaconda Cloud
+ * Make an environment file, testing locally, then push it to Anaconda cloud
+ * Example `environment.yml` file:
+
+<pre><code>
+```yaml
+name: numpy_db
+dependencies:
+  - setuptools
+  - numba
+  - numpy
+  - pandas=0.16.1
+  - python=3.4.3
+  - psycopg2
+  - pip: [testing.postgresql]
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Upload a local conda environment to Anaconda cloud
+ ```bash
+ $ conda env upload numpy_db
+ ```
+ * This example `numpy_db` refers to the environment name in the environment.yaml file in the previous slide.
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Later use the Anaconda cloud's saved environment in your cluster
+```bash
+$ acluster conda env create psteinberg/numpy_db
+```
+ * (Installs on the cluster the `numpy_db` environment that user `psteinberg` uploaded)
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Create your own `conda` package
+ * Step 1 make a conda recipe `meta.yaml`, for example:
+<pre><code>
+``` yaml
+package:
+   name: proj4
+   version: 4.8.0
+source:
+   fn: proj-4.8.0.tar.gz
+   url: http://download.osgeo.org/proj/proj-4.8.0.tar.gz
+build:
+   number: 0
+about:
+   home: http://trac.osgeo.org/proj/
+   license: MIT
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Create your own `conda` package
+ * Step 2 make a conda recipe `build.sh`, for example:
+<pre><code>
+```bash
+#!/bin/sh
+
+./configure --prefix=$PREFIX
+
+make
+make install
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Create your own `conda` package
+ * Step 3 Build the package and upload
+```bash
+$ cd myorg.package1
+$ conda config --set anaconda_upload yes # upload on successful build
+$ conda build .
+```
+```text
+Removing old build environment
+Removing old work directory
+BUILD START: myorg.package1-1.2.8-py27_0
+   ...(abbreviated)
+Using anaconda-server api site http://api.anaconda.org
+detecting package type ...
+conda
+extracting package attributes for upload ...
+done
+Uploading file psteinberg/myorg.package1/1.2.8/osx-64/myorg.package1-1.2.8-py27_0.tar.bz2
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * `conda install` your package from Anaconda cloud
+ * Use `conda config` to add your organization's `channel`:
+
+```bash
+$ conda config --add channels psteinberg
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+             </section>
+                <section data-markdown>
+### Anaconda cluster with Anaconda Cloud
+ * Also use `conda_channels` in your Anaconda cluster profiles to allow installs from your channel
+ <pre><code>
+ ```
+conda_channels:
+  - anaconda-cluster-contrib
+  - conda-team
+  - psteinberg
+  - anaconda-cluster
+  - defaults
+```
+</code></pre>
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * With Anaconda Cloud it is easy to control versions
+ * Experiment in a channel with a name like `test`
+ * After testing, `anaconda channel --copy` from that channel if you like your package
+ <pre><code>
+ ```bash
+$ anaconda upload /path/to/mypackage1-2.0.tar.bz2 --channel test
+```
+</code></pre>
+ * Download the package from test and see if it works, then
+ ```bash
+$ anaconda channel --copy test main
+```
+ * Now you can install the uploaded and tested package with
+ ```
+$ conda install mypackage -c USERNAME
+ ```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Search for packages that could be installed on cluster
+
+```
+$ anaconda search geos
+```
+![Alt text](geos_search.png)
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster with Anaconda Cloud
+ * Control access rights within your organization's anaconda server
+ * Use tokens created by `anaconda auth`
+
+```bash
+$ TOKEN=$(anaconda auth --create --name YOUR-TOKEN-NAME
+--scopes 'repos conda:download')
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Anaconda Cluster with Anaconda Cloud
+ * Anaconda Repository (Server, formerly) is like the public Anaconda Cloud, but set up inside a single organization
+<small>
+![Alt text](Anaconda_Server_HighLevel.png)
+</small>
+                </section>
+                <section data-markdown>
+### Anaconda cluster Enterprise Workflow
+![Alt text](anaconda-enterprise.png)
+                </section>
+                <section data-markdown>
+### Anaconda cluster Simple Workflow
+![Alt text](anaconda-non-enterprise.png)
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster and Spark
+ * Submit a script that is configured for the HDFS_MASTER set up by anaconda cluster
+```python
+from pyspark import SparkConf
+from pyspark import SparkContext
+HDFS_MASTER = '1.2.3.4' # replace with your head node's IP
+conf = SparkConf()
+conf.setMaster('yarn-client')
+conf.setAppName('spark-wordcount')
+conf.set('spark.executor.instances', 10)
+sc = SparkContext(conf=conf)
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+
+### Anaconda cluster and Spark
+ * Use PySpark in the Ipython notebook set up by Anaconda cluster
+
+![Alt text](pyspark_in_notebook.png)
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster / Cloud with Notebooks
+ * Upload an Ipython notebook to Anaconda Cloud
+
+```bash
+$ anaconda notebook upload Getting_Started_with_PySpark.ipynb
+    Getting_Started_with_PySpark.ipynb has been uploaded.
+You can visit your notebook at
+http://notebooks.anaconda.org/psteinberg/getting_started_with_pySpark
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+                <section data-markdown>
+
+### Anaconda cluster / Cloud with Notebooks
+ * Download a notebook that has been uploaded to your anaconda server
+
+```bash
+$ anaconda notebook download psteinberg/getting_started_with_pyspark
+
+Using anaconda-server api site http://api.anaconda.org
+psteinberg/getting_started_with_pySpark has been downloaded as
+Getting_Started_with_PySpark.ipynb.
+```
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+
+### Using Anaconda cluster with Cloudera
+ * Anaconda cluster can work with Cloudera
+  * Anaconda can be a `parcel` for Cloudera nodes' installation
+  * Anaconda cluster can provision Cloudera nodes
+  * See [http://docs.continuum.io/anaconda-cluster/cloudera-cdh](http://docs.continuum.io/anaconda-cluster/cloudera-cdh)
+
+![Alt text](Cloudera+Anaconda.png)
+
+                </section>
+                <section data-markdown>
+### Other News Related to Anaconda Cluster
+
+ * [dask-distributed](https://www.continuum.io/content/dask-distributed-and-anaconda-cluster) is a new distributed scheduler for [dask](http://dask.pydata.org/en/latest/).
+ * dask is an async evaluator of Python expression graphs with an API for out-of-core arrays and dataframes similar to `numpy` and `pandas`.
+ * An Anaconda cluster plugin can install dask-distributed and start workers with a scheduler
+ * [https://www.continuum.io/content/dask-distributed-and-anaconda-cluster](https://www.continuum.io/content/dask-distributed-and-anaconda-cluster)
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Other News Related to Anaconda Cluster
+ * Walkthrough video / blog on creating a [Hive and Impala Anaconda cluster](http://docs.continuum.io/anaconda-cluster/examples/hive-impala).
+ * This 10-minute video walks through the configuration steps before starting a cluster, then loading data and running Hive and Impala queries
+ * [http://docs.continuum.io/anaconda-cluster/examples/hive-impala](http://docs.continuum.io/anaconda-cluster/examples/hive-impala)
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Other News Related to Anaconda Cluster
+ * Continuum Analytics and Red Hat allow deployment of [PySpark with GlusterFS](http://redhatstorage.redhat.com/2015/02/17/deploying-pyspark-on-red-hat-storage-glusterfs/
+) distributed file system.
+ * The Continuum Analytics [developer blog](https://www.continuum.io/blog/developer-blog) about the Anaconda ecosystem
+ * [https://www.continuum.io/blog/developer-blog](https://www.continuum.io/blog/developer-blog)
+
+![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Questions?
+ * Ask me about Anaconda, `conda` or anything Python-related
+  * Peter Steinberg (Data Scientist)
+  * psteinberg@continuum.io
+
+![Alt Text](anaconda_cluster_logo.png)
+
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

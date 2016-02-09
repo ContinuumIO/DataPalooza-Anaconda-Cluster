@@ -6,8 +6,8 @@
 
 		<title>Anaconda Cluster</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="Anaconda cluster with Anaconda Cloud">
+		<meta name="author" content="Peter Steinberg">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -124,7 +124,6 @@
                 </section>
                 <section data-markdown>
 
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 ### Installation of Anaconda-cluster
  * Works with the [anaconda.org](http://anaconda.org) distribution system
 ```bash
@@ -136,7 +135,6 @@ $ conda install -c anaconda-cluster anaconda-cluster
 ![Alt Text](anaconda_cluster_logo.png)
                 </section>
                 <section data-markdown>
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 ### Provider Configuration
  * Create a `provider.yaml` file
  * Here's an example for using AWS EC2:
@@ -158,7 +156,6 @@ aws_east:
                 </section>
                 <section data-markdown>
 
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 ### Provider Configuration
  * And an example for on-premise hardware
 <pre><code>
@@ -174,11 +171,8 @@ bare_metal:
                 </section>
                 <section data-markdown>
 
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 ### Get a Private Key File
  * Download the `private_key` file from your cloud provider or colleague and change its permissions.
-
-<img style="width:60%;" src="create_key_pair.png"></img>
 
 ```bash
 $ chmod 0600 ~/path/to/your_keyname
@@ -350,8 +344,6 @@ mycluster:
 ![Alt Text](anaconda_cluster_logo.png)
                 </section>
                 <section data-markdown>
-
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 
 ### With a Running Anaconda Cluster
  * Typical workflow:

@@ -72,12 +72,11 @@
 ![Alt text](ARM_support_RPi.jpg)
                 </section>
                 <section data-markdown>
-<img class="logo" src="Continuum_Logo_0702.png"></img>
 ### Why We Made Anaconda Cluster
  * Simplify scientific cluster operations and focus on data science
  * Promote repeatable data science and experimentation
  * Remove devops hurdles for big data tools
-<img style="margin-left:20%;margin-top:0px;width:60%;" src="ARM_support_RPi.jpg"></img>
+![Alt text](ARM_support_RPi.jpg)
                 </section>
                 <section data-markdown>
 ### Anaconda Cluster Plugins
@@ -465,6 +464,7 @@ $ acluster cmd "ls /tmp/data" --target --all
  ```bash
  $ acluster cmd 'conda create -n new_website python=3.4 django'
  ```
+
 ![Alt Text](anaconda_cluster_logo.png)
 
                 </section>
@@ -541,6 +541,7 @@ Cluster destroyed
  * Spark
  * Cloudera
 
+![Alt Text](anaconda_cluster_logo.png)
                 </section>
                 <section data-markdown>
 
@@ -746,7 +747,7 @@ $ TOKEN=$(anaconda auth --create --name YOUR-TOKEN-NAME
                 </section>
                 <section data-markdown>
 ### Anaconda Cluster with Anaconda Cloud
- * Anaconda Repository (Server, formerly) is like the public Anaconda Cloud, but set up inside a single organization
+ * Anaconda Repository (Server, formerly) is like the public Anaconda Cloud, but set up inside an organization
 <small>
 ![Alt text](Anaconda_Server_HighLevel.png)
 </small>
@@ -791,35 +792,6 @@ sc = SparkContext(conf=conf)
                 </section>
                 <section data-markdown>
 
-### Anaconda cluster / Cloud with Notebooks
- * Upload an Ipython notebook to Anaconda Cloud
-
-```bash
-$ anaconda notebook upload Getting_Started_with_PySpark.ipynb
-    Getting_Started_with_PySpark.ipynb has been uploaded.
-You can visit your notebook at
-http://notebooks.anaconda.org/psteinberg/getting_started_with_pySpark
-```
-
-![Alt Text](anaconda_cluster_logo.png)
-
-                </section>
-                <section data-markdown>
-
-### Anaconda cluster / Cloud with Notebooks
- * Download a notebook that has been uploaded to your anaconda server
-
-```bash
-$ anaconda notebook download psteinberg/getting_started_with_pyspark
-
-Using anaconda-server api site http://api.anaconda.org
-psteinberg/getting_started_with_pySpark has been downloaded as
-Getting_Started_with_PySpark.ipynb.
-```
-
-![Alt Text](anaconda_cluster_logo.png)
-                </section>
-                <section data-markdown>
 
 ### Using Anaconda cluster with Cloudera
  * Anaconda cluster can work with Cloudera

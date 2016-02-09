@@ -211,7 +211,7 @@ security:
                  </section>
                 <section data-markdown>
 ### More About Cluster Profiles
-  * Place other cluster profile configs in the `~/.acluster/profiles` directory,
+  * Place other cluster profile configs in the `~/.acluster/profiles` directory
   * See also [http://docs.continuum.io/anaconda-cluster/](http://docs.continuum.io/anaconda-cluster/)</small>
 
 ![Alt Text](anaconda_cluster_logo.png)
@@ -340,7 +340,7 @@ mycluster:
  * Typical workflow:
   * Pushing data files and code
   * Remote `conda` installing Python dependencies
-  * Installing more anaconda cluster plugins like Hive or Impala
+  * Installing more plugins like Hive or Impala
   * Remote ssh commands or ssh'ing into machines
   * Transferring output files from nodes to local machine
   * Shutting down cluster (stopping provisioning)
@@ -413,7 +413,7 @@ $ acluster get /tmp/a.txt a_1.txt --target 1
 
 
 ### Cluster Workflow
- * Install an anaconda cluster plugin if it is not already in cluster profile
+ * Install a plugin if it is not already in cluster profile
 
 ```
 $ acluster install hive impala
@@ -426,7 +426,7 @@ $ acluster install hive impala
 
 ### Cluster Workflow
 
- * Run any remote command on some or all nodes:
+ * Run any remote command on some or all nodes
  * The `--target` argument controls which node(s) run the command
  * Output from each node is piped back
 
@@ -515,13 +515,36 @@ Cluster destroyed
 
 ### Anaconda Cluster / Repository
 
- * Anaconda Repository at [anaconda.org](http://anaconda.org) is a distribution system
+ * Anaconda Repository is a distribution system
   * Upload a local Python environment
   * Upload a Python or R package
   * Upload a Jupyter notebook
   * Share notebooks, environments and packages with other users and clusters
 
 ![Alt Text](anaconda_cluster_logo.png)
+                </section>
+                <section data-markdown>
+### Cluster Enterprise Workflow
+![Alt text](Enterprise-workflow-0.png)
+                </section>
+                <section data-markdown>
+### Cluster Enterprise Workflow
+![Alt text](Enterprise-workflow-1.png)
+                </section>
+                <section data-markdown>
+
+### Cluster Enterprise Workflow
+![Alt text](Enterprise-workflow-2.png)
+                </section>
+                <section data-markdown>
+
+### Cluster Enterprise Workflow
+![Alt text](Enterprise-workflow-3.png)
+                </section>
+                <section data-markdown>
+
+### Simple Cluster Workflow
+![Alt text](anaconda-non-enterprise.png)
                 </section>
                 <section data-markdown>
 
@@ -553,7 +576,7 @@ dependencies:
  ```bash
  $ conda env upload numpy_db
  ```
- * This example `numpy_db` refers to the environment name in the environment.yaml file in the previous slide.
+ * This example `numpy_db` refers to the environment name in the `environment.yml` file in the previous slide.
 
 ![Alt Text](anaconda_cluster_logo.png)
 
@@ -565,7 +588,7 @@ dependencies:
 ```bash
 $ conda env create psteinberg/numpy_db
 ```
- * (Installs on the cluster the `numpy_db` environment that user `psteinberg` uploaded)
+ * (Installs the `numpy_db` environment user `psteinberg` uploaded)
 
 ![Alt Text](anaconda_cluster_logo.png)
 
@@ -574,7 +597,8 @@ $ conda env create psteinberg/numpy_db
 
 ### Anaconda Cluster / Repository
  * Create your own `conda` package
- * Step 1 make a conda recipe `meta.yaml`, for example:
+ * Step 1 make a conda recipe `meta.yaml`
+ * An example:
 <pre><code>
 ``` yaml
 package:
@@ -597,7 +621,8 @@ about:
 
 ### Anaconda Cluster / Repository
  * Create your own `conda` package
- * Step 2 make a conda recipe `build.sh`, for example:
+ * Step 2 make a conda recipe `build.sh`
+ * An example:
 <pre><code>
 ```bash
 #!/bin/sh
@@ -668,20 +693,18 @@ conda_channels:
                 <section data-markdown>
 
 ### Anaconda Cluster / Repository
- * With Anaconda Repository it is easy to control versions
- * Experiment in a channel with a name like `test`
- * After testing, `anaconda channel --copy` from that channel if you like your package
- <pre><code>
- ```bash
+ * Controlling versions
+  * Experiment in a channel
+  ```bash
 $ anaconda upload /path/to/mypackage1-2.0.tar.bz2 --channel test
 ```
-</code></pre>
- * Download the package from test and see if it works, then
- ```bash
+
+  * Download the package, try it, then `--copy` to `main`
+  ```bash
 $ anaconda channel --copy test main
 ```
- * Now you can install the uploaded and tested package with
- ```
+  * Install the uploaded and tested package
+  ```
 $ conda install mypackage -c USERNAME
  ```
 
@@ -712,29 +735,6 @@ $ TOKEN=$(anaconda auth --create --name YOUR-TOKEN-NAME
 ```
 
 ![Alt Text](anaconda_cluster_logo.png)
-                </section>
-                <section data-markdown>
-### Cluster Enterprise Workflow
-![Alt text](Enterprise-workflow-0.png)
-                </section>
-                <section data-markdown>
-### Cluster Enterprise Workflow
-![Alt text](Enterprise-workflow-1.png)
-                </section>
-                <section data-markdown>
-
-### Cluster Enterprise Workflow
-![Alt text](Enterprise-workflow-2.png)
-                </section>
-                <section data-markdown>
-
-### Cluster Enterprise Workflow
-![Alt text](Enterprise-workflow-3.png)
-                </section>
-                <section data-markdown>
-
-### Simple Cluster Workflow
-![Alt text](anaconda-non-enterprise.png)
                 </section>
                 <section data-markdown>
 
@@ -794,7 +794,7 @@ sc = SparkContext(conf=conf)
                 </section>
                 <section data-markdown>
 ### Questions?
- * Ask me about Anaconda, `conda` or anything Python-related
+ * Ask me about Anaconda or anything Python-related
   * Peter Steinberg (Data Scientist)
   * psteinberg@continuum.io
 
